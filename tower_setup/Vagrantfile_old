@@ -1,0 +1,40 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.ssh.insert_key = false
+
+config.vm.define "tower1" do |tower1|
+    tower1.vm.box = "centos/7"
+    tower1.vm.network "forwarded_port", guest: 80, host: 8080
+    tower1.vm.network "forwarded_port", guest: 443, host: 8443
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = "4092"
+    end
+end
+
+config.vm.define "tower2" do |tower2|
+    tower2.vm.box = "centos/7"
+    tower2.vm.network "forwarded_port", guest: 80, host: 8081
+    tower2.vm.network "forwarded_port", guest: 443, host: 8444
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = "4092"
+    end
+end
+
+config.vm.define "tower3" do |tower3|
+    tower3.vm.box = "centos/7"
+    tower3.vm.network "forwarded_port", guest: 80, host: 8082
+    tower3.vm.network "forwarded_port", guest: 443, host: 8445
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = "4092"
+    end
+end
+
+config.vm.define "db1" do |db1|
+    db1.vm.box = "centos/7"
+end
+end
+

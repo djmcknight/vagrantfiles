@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.provision "shell", inline: 'sudo cp /vagrant/hosts /etc/hosts'
+  config.vm.provision "shell", inline: 'sudo yum install -y wget'
+  config.vm.provision "shell", inline: "sudo sed -i 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config"
+  config.vm.provision "shell", inline: "sudo systemctl restart sshd"
+  config.vm.provision "shell", inline: "sudo systemctl restart sshd"
+  config.vm.provision "shell", inline: "sudo mkdir /root/.ssh"
+  config.vm.provision "shell", inline: "sudo chmod 0600 /root/.ssh"
+  config.vm.provision "shell", inline: "sudo cp /vagrant/authorized_keys /root/.ssh/authorized_keys"
+  config.vm.provision "shell", inline: 'sudo cp /vagrant/id_rsa /root/.ssh/'
+  config.vm.provision "shell", inline: 'sudo chmod 0400 /root/.ssh/id_rsa'
+
+  config.vm.define "tower01" do |tower01|
+    tower01.vm.box = "centos/7"
+    tower01.vm.hostname = "tower01.example.com"
+    tower01.vm.network "private_network", ip: "192.168.37.142"
+    tower01.vm.provider "virtualbox" do |vb|
+        vb.memory = 4096
+        vb.cpus = 2
+    end
+  end
+
+  config.vm.define "tower02" do |tower02|
+    tower02.vm.box = "centos/7"
+    tower02.vm.hostname = "tower02.example.com"
+    tower02.vm.network "private_network", ip: "192.168.37.143"
+    tower02.vm.provider "virtualbox" do |vb|
+        vb.memory = 4096
+        vb.cpus = 2
+    end
+  end
+
+  config.vm.define "db01" do |db01|
+    db01.vm.box = "centos/7"
+    db01.vm.hostname = "db01.example.com"
+    db01.vm.network "private_network", ip: "192.168.37.145"
+    db01.vm.provider "virtualbox" do |vb|
+        vb.memory = 4096
+        vb.cpus = 2
+    end
+  end
+
+end

@@ -1,0 +1,23 @@
+[tower]
+tower01.example.com
+tower02.example.com
+tower03.example.com
+[database]
+towerdb01.example.com 
+[all:vars]
+admin_password='test123'
+
+pg_host='towerdb01.example.com'
+pg_port='5432'
+
+pg_database='awx'
+pg_username='awx'
+pg_password='test123'
+
+rabbitmq_username='tower'
+rabbitmq_password='test123'
+rabbitmq_cookie=cookiemonster
+
+# Isolated Tower nodes automatically generate an RSA key for authentication;
+# To disable this behavior, set this value to false
+# isolated_key_generation=true
